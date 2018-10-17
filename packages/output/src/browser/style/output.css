@@ -26,9 +26,13 @@
     box-sizing: border-box;
 }
 
-#outputView #outputChannelList {
+#outputView #outputOverlay {
     position: absolute;
     right: 24px;
+    margin: 6px;
+}
+
+#outputView #outputOverlay > * {
     line-height: var(--theia-content-line-height);
     font-size: var(--theia-ui-font-size1);
     border-width: 1px;
@@ -36,16 +40,41 @@
     border-color: var(--theia-border-color1);
     background: var(--theia-layout-color2);
     color: var(--theia-ui-font-color1);
-
     -webkit-appearance: none;
     -moz-appearance: none;
+    padding: 0px 3px;
+
+    /* Separation between elements.  */
+    margin-left: 6px;
+}
+
+#outputView #outputChannelList {
+    padding-right: 15px;
     background-image: linear-gradient(45deg, transparent 50%, var(--theia-ui-font-color1) 50%), linear-gradient(135deg, var(--theia-ui-font-color1) 50%, transparent 50%);
     background-position: calc(100% - 6px) 8px, calc(100% - 2px) 8px, 100% 0;
     background-size: 4px 5px;
     background-repeat: no-repeat;
-    padding-left: 3px;
-    padding-right: 15px;
-    margin: 6px;
+}
+
+#outputView #outputClear {
+    background-image: var(--theia-icon-clear);
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    opacity: 0.25;
+}
+
+#outputView #outputClear.enabled {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+#outputView #outputClear.enabled:hover {
+    opacity: 1;
 }
 
 .output-tab-icon::before {
