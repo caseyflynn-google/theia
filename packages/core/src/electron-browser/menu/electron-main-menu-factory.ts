@@ -122,8 +122,11 @@ export class ElectronMainMenuFactory {
     protected acceleratorFor(keybinding: Keybinding) {
         const keyCodesString = keybinding.keybinding.split(' ');
         let result = '';
-        /* FIXME see https://github.com/electron/electron/issues/11740
-           Key Sequences can't be represented properly in the electron menu. */
+        // FIXME see https://github.com/electron/electron/issues/11740
+        // Key Sequences can't be represented properly in the electron menu.
+        //
+        // We can do what VS Code does, and append the chords as a suffix to the menu label.
+        // https://github.com/theia-ide/theia/issues/1199#issuecomment-430909480
         if (keyCodesString.length > 1) {
             return result;
         }

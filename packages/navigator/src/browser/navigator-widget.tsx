@@ -17,6 +17,7 @@
 import { injectable, inject, postConstruct } from 'inversify';
 import { Message } from '@phosphor/messaging';
 import URI from '@theia/core/lib/common/uri';
+import { isOSX, isElectron } from '@theia/core/lib/common/';
 import { CommandService, SelectionService } from '@theia/core/lib/common';
 import { CommonCommands } from '@theia/core/lib/browser';
 import {
@@ -170,9 +171,9 @@ export class FileNavigatorWidget extends FileTreeWidget {
         }
     }
 
-    protected readonly openWorkspace = () => this.doOpenWorkspace();
-    protected doOpenWorkspace() {
-        this.commandService.executeCommand(WorkspaceCommands.OPEN_WORKSPACE.id);
+    protected readonly open = () => this.doOpen();
+    protected doOpen() {
+        this.commandService.executeCommand(isOSX || !isElectron() ? WorkspaceCommands.OPEN_WORKSPACE.id : WorkspaceCommands.OPEN_FOLDER.id);
     }
 
     /**
@@ -181,10 +182,10 @@ export class FileNavigatorWidget extends FileTreeWidget {
      */
     protected renderOpenWorkspaceDiv(): React.ReactNode {
         return <div className='theia-navigator-container'>
-            You have not yet opened a workspace.
+            <div className='center'>You have not yet opened a folder.</div>
             <div className='open-workspace-button-container'>
-                <button className='open-workspace-button' title='Select a directory as your workspace root' onClick={this.openWorkspace}>
-                    Open Workspace
+                <button className='open-workspace-button' title='Select a folder as your workspace root' onClick={this.open}>
+                    Open Folder
                 </button>
             </div>
         </div>;

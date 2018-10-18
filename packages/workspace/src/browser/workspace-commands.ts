@@ -38,21 +38,24 @@ export namespace WorkspaceCommands {
     // `OPEN_FILE` and `OPEN_FOLDER` must be available only on Linux and Windows in electron.
     // `OPEN` must *not* be available on Windows and Linux in electron.
     // VS Code does the same. See: https://github.com/theia-ide/theia/pull/3202#issuecomment-430585357
-    export const OPEN: Command = {
+    export const OPEN: Command & { dialogLabel: string } = {
         id: 'workspace:open',
-        label: 'Open...'
+        label: 'Open...',
+        dialogLabel: 'Open'
     };
-    export const OPEN_FILE: Command = {
+    // No `label`. Otherwise, it shows up in the `Command Palette`.
+    export const OPEN_FILE: Command & { dialogLabel: string } = {
         id: 'workspace:openFile',
-        label: 'Open File...'
+        dialogLabel: 'Open File'
     };
-    export const OPEN_FOLDER: Command = {
+    export const OPEN_FOLDER: Command & { dialogLabel: string } = {
         id: 'workspace:openFolder',
-        label: 'Open Folder...'
+        dialogLabel: 'Open Folder' // No `label`. Otherwise, it shows up in the `Command Palette`.
     };
-    export const OPEN_WORKSPACE: Command = {
+    export const OPEN_WORKSPACE: Command & { dialogLabel: string } = {
         id: 'workspace:openWorkspace',
-        label: 'Open Workspace...'
+        label: 'Open Workspace...',
+        dialogLabel: 'Open Workspace'
     };
     export const OPEN_RECENT_WORKSPACE: Command = {
         id: 'workspace:openRecent',
@@ -359,10 +362,8 @@ export class WorkspaceCommandContribution implements CommandContribution {
     protected async addFolderToWorkspace(uri: URI | undefined): Promise<void> {
         if (uri) {
             const stat = await this.fileSystem.getFileStat(uri.toString());
-            if (stat) {
-                if (stat.isDirectory) {
-                    await this.workspaceService.addRoot(uri);
-                }
+            if (stat && stat.isDirectory) {
+                await this.workspaceService.addRoot(uri);
             }
         }
     }

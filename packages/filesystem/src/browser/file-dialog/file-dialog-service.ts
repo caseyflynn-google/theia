@@ -51,7 +51,10 @@ export class DefaultFileDialogService {
             await dialog.model.navigateTo(rootNode);
             const value = await dialog.open();
             if (value) {
-                return (Array.isArray(value) ? value : [value]).map(node => node.uri);
+                if (!Array.isArray(value)) {
+                    return value.uri;
+                }
+                return value.map(node => node.uri);
             }
         }
         return undefined;
